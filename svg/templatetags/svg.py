@@ -25,11 +25,13 @@ def svg(filename):
 
     if SVG_DIRS:
         for directory in SVG_DIRS:
-            svg_path = os.path.join(directory, '{filename}.svg'.format(
-                filename=filename))
+            for root, dirs, files in os.walk(directory):
+                for name in files:
+                    if '{filename}.svg'.format(filename=filename) == name:
+                        svg_path = os.path.join(root, name)
 
-            if os.path.isfile(svg_path):
-                path = svg_path
+                        if os.path.isfile(svg_path):
+                            path = svg_path
     else:
         path = finders.find(os.path.join('svg', '{filename}.svg'.format(
             filename=filename)), all=True)
